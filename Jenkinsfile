@@ -1,6 +1,5 @@
 
 pipeline {
-    agent { docker 'node:latest'}
     stages {
         stage('build') {
             steps {
