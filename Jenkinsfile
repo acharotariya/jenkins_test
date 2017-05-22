@@ -1,10 +1,12 @@
 
 pipeline {
-      agent any
+    agent {
+        docker { image 'node:boron' }
+    }
     stages {
-        stage('build') {
+        stage('Test') {
             steps {
-                echo "hello world"
+                sh 'node --version'
             }
         }
     }
