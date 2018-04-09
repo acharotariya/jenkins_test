@@ -1,13 +1,26 @@
-
-pipeline {
-    agent {
-        docker { image 'node:boron' }
+node('testing') {
+    stage('Initialize') {
+        echo 'Initializing...'
+        def node = tool name: 'Node', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation'
+        env.PATH = "${node}/bin:${env.PATH}"
     }
-    stages {
-        stage('Test') {
-            steps {
-                sh 'node --version'
-            }
-        }
+
+    stage('Checkout') {
+        echo 'Getting source code...'
+        checkout scm
+    }
+
+    stage('Build') {
+        echo 'Building dependencies...'
+        sh 'npm i'
+    }
+
+    stage('Test') {
+        echo 'Testing...'
+        sh 'npm test'
+    }
+
+    stage('Publish') {
+        echo 'Publishing Test Coverage...'
     }
 }
